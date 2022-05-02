@@ -1,13 +1,18 @@
 import 'package:flutter/material.dart';
-import 'package:intro_screen/pages/home.dart';
-import 'package:intro_screen/pages/intro.dart';
+import 'package:shared_preferences/shared_preferences.dart';
+import './pages/home.dart';
+import './pages/intro.dart';
 
-void main() {
+Future main() async {
+  WidgetsFlutterBinding().ensureVisualUpdate();
+
+  final prefs = await SharedPreferences.getInstance();
+  final showHome = prefs.getBool('showHome') ?? false;
+
   runApp(MaterialApp(
     initialRoute: '/',
     routes: {
-      "/": (context) => const IntroView(),
-      "/home": (context) => const Home(),
+      "/": (context) => showHome ? const Home(): const IntroView(),
     },
   ));
 }

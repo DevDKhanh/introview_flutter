@@ -1,6 +1,8 @@
 import 'dart:ffi';
 
 import 'package:flutter/material.dart';
+import 'package:intro_screen/pages/home.dart';
+import 'package:shared_preferences/shared_preferences.dart';
 import 'package:smooth_page_indicator/smooth_page_indicator.dart';
 
 class IntroView extends StatefulWidget {
@@ -70,8 +72,14 @@ class _IntroViewState extends State<IntroView> {
               color: Colors.blue,
               child: Center(
                 child: TextButton(
-                    onPressed: () {
-                      Navigator.pushReplacementNamed(context, '/home');
+                    onPressed: () async {
+                      /*---------- Set local value show home ----------*/
+                      final prefs = await SharedPreferences.getInstance();
+                      prefs.setBool('showHome', true);
+
+                      Navigator.of(context).pushReplacement(MaterialPageRoute(
+                        builder: (context) => const Home(),
+                      ));
                     },
                     child: const Text(
                       'Bắt đầu ngay',
